@@ -1,6 +1,8 @@
 import java.util.Scanner;
+
 public class David {
     public static final String LINE_SEPERATOR = "____________________________________________________________";
+
     public static void main(String[] args) {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -22,18 +24,14 @@ public class David {
                     System.out.println((j + 1) + "." + "[" + task[j].getStatusIcon() + "] " + values[j] + "\n" + LINE_SEPERATOR);
                     int index = input.indexOf(" ");
                 }
-            }
-
-            else if(input.startsWith("mark")) {
+            } else if (input.startsWith("mark")) {
                 markTask(task, getIndex(input));
-                printMark(task,getIndex(input));
+                printMark(task, getIndex(input));
 
-            }
-            else if(input.startsWith("unmark")) {
+            } else if (input.startsWith("unmark")) {
                 unmarkTask(task, getIndex(input));
-                printUnmark(task,getIndex(input));
-            }
-            else {
+                printUnmark(task, getIndex(input));
+            } else {
                 System.out.println(LINE_SEPERATOR + "\n"
                         + "added: " + input + "\n" + LINE_SEPERATOR);
                 values[i] = input;  // store user input in array
@@ -58,23 +56,24 @@ public class David {
                 LINE_SEPERATOR);
     }
 
-    public static void markTask(Task[] task, int index){
-        task[index].isDone = true;;
+    public static void markTask(Task[] task, int index) {
+        task[index].isDone = true;
+        ;
     }
 
-    public static void unmarkTask(Task[] task, int index){
+    public static void unmarkTask(Task[] task, int index) {
         task[index].isDone = false;
     }
 
-    public static void printMark(Task[] task, int index){
+    public static void printMark(Task[] task, int index) {
         System.out.println(LINE_SEPERATOR + "\n" + "Nice! I've marked this task as done:\n" + "[" + task[index].getStatusIcon() + "] " + task[index].getDescription() + "\n" + LINE_SEPERATOR);
     }
 
-    public static void printUnmark(Task[] task, int index){
+    public static void printUnmark(Task[] task, int index) {
         System.out.println(LINE_SEPERATOR + "\n" + "[" + task[index].getStatusIcon() + "] " + task[index].getDescription() + "\n" + LINE_SEPERATOR);
     }
 
-    public static int getIndex(String marking){
+    public static int getIndex(String marking) {
         int index = marking.indexOf(" ");
         return (Integer.parseInt(marking.substring(index + 1)) - 1);
     }
