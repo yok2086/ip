@@ -15,4 +15,9 @@ public class Task {
         return description;
     }
 
+
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "]"; // You can customize this string as needed
+    }
 }
