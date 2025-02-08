@@ -16,7 +16,7 @@ public class David {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         int i = 0;
-        char taskType = input.charAt(input.indexOf("[") + 1);
+        char input_type = input.charAt(input.indexOf("[") + 1);
         while (!input.equals("bye")) {
             if (input.equals("list")) {
                 System.out.println(LINE_SEPERATOR + "\n" + "Here are the tasks in your list:\n");
@@ -56,7 +56,9 @@ public class David {
     }
 
     private static String printTaskType(Task[] task, int i) {
-        return LINE_SEPERATOR + "\n" + " Got it. I've added this task:\n" + task[i].toString() + "\n" + "Now you have " + (i + 1) + " tasks in the list.\n" + LINE_SEPERATOR;
+        return LINE_SEPERATOR + System.lineSeparator() + " Got it. I've added this task:" + System.lineSeparator()
+                + task[i].toString() + System.lineSeparator()
+                + "Now you have " + (i + 1) + " tasks in the list." + System.lineSeparator() + LINE_SEPERATOR;
     }
 
     private static void printHello() {
