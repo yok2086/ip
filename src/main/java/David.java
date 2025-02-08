@@ -56,6 +56,9 @@ public class David {
             // Print the custom error message without stack trace
             System.out.println(e.getMessage());
         }
+          catch (DavidException e) {
+                System.out.println(LINE_SEPERATOR + System.lineSeparator() + " Oops! The description of a task should NOT be blank! Please try again :)" + System.lineSeparator() + LINE_SEPERATOR);
+            }
             input = scanner.nextLine();
 
         }
@@ -96,10 +99,10 @@ public class David {
         System.out.println(LINE_SEPERATOR + "\n" + "[" + task[index].getStatusIcon() + "] " + task[index].getDescription() + "\n" + LINE_SEPERATOR);
     }
 
-    public static int getIndex(String marking, String find) {
+    public static int getIndex(String marking, String find) throws DavidException {
         int index = marking.indexOf(find);
         if (index == -1) {
-            throw new IllegalArgumentException(LINE_SEPERATOR + System.lineSeparator() + " Oops! The description of a task should NOT be blank! Please try again :)" + System.lineSeparator() + LINE_SEPERATOR);
+            throw new DavidException();
         }
         return index;
     }
