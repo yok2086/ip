@@ -1,3 +1,6 @@
+package David.deadline;
+import David.task.Task;
+
 public class Deadline extends Task {
     protected String by;
 

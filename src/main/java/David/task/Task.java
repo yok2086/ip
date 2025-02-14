@@ -1,3 +1,5 @@
+package David.task;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -15,6 +17,9 @@ public class Task {
         return description;
     }
 
+    public boolean setDone(boolean status) {
+        return isDone = status;
+    }
 
     @Override
     public String toString() {

@@ -1,5 +1,11 @@
 import java.util.Scanner;
 
+import David.task.Task;
+import David.ui.DavidException;
+import David.deadline.Deadline;
+import David.event.Event;
+import David.todo.Todo;
+
 public class David {
     public static final String LINE_SEPERATOR = "____________________________________________________________";
 
@@ -45,10 +51,6 @@ public class David {
                     i++;
 
                 } else {
-//                System.out.println(LINE_SEPERATOR + "\n"
-//                        + "added: " + input + "\n" + LINE_SEPERATOR);
-//                task[i] = new Task(input);
-//                i++;
                     throw new IllegalArgumentException(LINE_SEPERATOR + System.lineSeparator() + " Sorry... I don't know what you mean by that? Could you try again?" + System.lineSeparator() + LINE_SEPERATOR);
                 }
             }
@@ -84,11 +86,11 @@ public class David {
     }
 
     public static void markTask(Task[] task, int index) {
-        task[index].isDone = true;
+        task[index].setDone(true);
     }
 
     public static void unmarkTask(Task[] task, int index) {
-        task[index].isDone = false;
+        task[index].setDone(false);
     }
 
     public static void printMark(Task[] task, int index) {
