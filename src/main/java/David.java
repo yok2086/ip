@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+import java.util.ArrayList;
 import David.task.Task;
 import David.ui.DavidException;
 import David.deadline.Deadline;
@@ -16,8 +16,7 @@ public class David {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
-        Task[] task = new Task[100];
-
+        ArrayList<Task> task = new ArrayList<>();
         printHello();
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -28,7 +27,7 @@ public class David {
                 if (input.equals("list")) {
                     System.out.println(LINE_SEPERATOR + "\n" + "Here are the tasks in your list:\n");
                     for (int j = 0; j < i; j++) {
-                        System.out.println((j + 1) + "." + task[j].toString() + "\n" + LINE_SEPERATOR);
+                        System.out.println((j + 1) + "." + task.get(j).toString() + "\n" + LINE_SEPERATOR);
                     }
                 } else if (input.startsWith("mark")) {
                     markTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
@@ -38,19 +37,26 @@ public class David {
                     unmarkTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
                     printUnmark(task, Integer.parseInt(input.split(" ")[1]) - 1);
                 } else if (input.startsWith("todo")) {
-                    task[i] = new Todo(input.substring(getIndex(input, " ") + 1));
+                    task.add(new Todo(input.substring(getIndex(input, " ") + 1)));
                     System.out.println(printTaskType(task, i));
                     i++;
                 } else if (input.startsWith("deadline")) {
-                    task[i] = new Deadline((input.substring(getIndex(input, " ") + 1, getIndex(input, "/") - 1)), input.substring(getIndex(input, "by") + 3));
+                    task.add(new Deadline((input.substring(getIndex(input, " ") + 1, getIndex(input, "/") - 1)), input.substring(getIndex(input, "by") + 3)));
                     System.out.println(printTaskType(task, i));
                     i++;
                 } else if (input.startsWith("event")) {
-                    task[i] = new Event((input.substring(getIndex(input, " ") + 1, getIndex(input, "/") - 1)), input.substring(getIndex(input, "from") + 5, getIndex(input, "to") - 2), input.substring(getIndex(input, "to") + 3));
+                    task.add(new Event((input.substring(getIndex(input, " ") + 1, getIndex(input, "/") - 1)), input.substring(getIndex(input, "from") + 5, getIndex(input, "to") - 2), input.substring(getIndex(input, "to") + 3)));
                     System.out.println(printTaskType(task, i));
                     i++;
 
-                } else {
+                }
+                else if (input.startsWith("delete")) {
+                    deleteTask(task, Integer.parseInt(input.substring(input.indexOf(" ") + 1)));
+                    i--;
+
+                }
+
+                else {
                     throw new IllegalArgumentException(LINE_SEPERATOR + System.lineSeparator() + " Sorry... I don't know what you mean by that? Could you try again?" + System.lineSeparator() + LINE_SEPERATOR);
                 }
             }
@@ -67,9 +73,9 @@ public class David {
         printBye();
     }
 
-    private static String printTaskType(Task[] task, int i) {
+    private static String printTaskType(ArrayList<Task> task, int i) {
         return LINE_SEPERATOR + System.lineSeparator() + " Got it. I've added this task:" + System.lineSeparator()
-                + task[i].toString() + System.lineSeparator()
+                + task.get(i).toString() + System.lineSeparator()
                 + "Now you have " + (i + 1) + " tasks in the list." + System.lineSeparator() + LINE_SEPERATOR;
     }
 
@@ -85,20 +91,25 @@ public class David {
                 LINE_SEPERATOR);
     }
 
-    public static void markTask(Task[] task, int index) {
-        task[index].setDone(true);
+    public static void markTask(ArrayList<Task> task, int index) {
+        task.get(index).setDone(true);
     }
 
-    public static void unmarkTask(Task[] task, int index) {
-        task[index].setDone(false);
+    public static void unmarkTask(ArrayList<Task> task, int index) {
+        task.get(index).setDone(false);
     }
 
-    public static void printMark(Task[] task, int index) {
-        System.out.println(LINE_SEPERATOR + "\n" + "Nice! I've marked this task as done:\n" + "[" + task[index].getStatusIcon() + "] " + task[index].getDescription() + "\n" + LINE_SEPERATOR);
+    public static void deleteTask(ArrayList<Task> task, int index) {
+        System.out.println(LINE_SEPERATOR + "\n" + "Noted. I've removed this task:\n" + "[" + task.get(index).getStatusIcon() + "] " + task.get(index).getDescription() + "\n" + LINE_SEPERATOR);
+        task.remove(index);
     }
 
-    public static void printUnmark(Task[] task, int index) {
-        System.out.println(LINE_SEPERATOR + "\n" + "[" + task[index].getStatusIcon() + "] " + task[index].getDescription() + "\n" + LINE_SEPERATOR);
+    public static void printMark(ArrayList<Task> task, int index) {
+        System.out.println(LINE_SEPERATOR + "\n" + "Nice! I've marked this task as done:\n" + "[" + task.get(index).getStatusIcon() + "] " + task.get(index).getDescription() + "\n" + LINE_SEPERATOR);
+    }
+
+    public static void printUnmark(ArrayList<Task> task, int index) {
+        System.out.println(LINE_SEPERATOR + "\n" + "[" + task.get(index).getStatusIcon() + "] " + task.get(index).getDescription() + "\n" + LINE_SEPERATOR);
     }
 
     public static int getIndex(String marking, String find) throws DavidException {
