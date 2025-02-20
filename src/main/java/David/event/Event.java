@@ -16,4 +16,8 @@ public class Event extends Task {
         return "[E]" + super.toString() + " " + description + " (from: " + from + " to: " + to + ")";
     }
 
+    public String toFileFormat() {
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
+    }
+
 }

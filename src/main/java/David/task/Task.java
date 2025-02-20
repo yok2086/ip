@@ -23,6 +23,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "]"; // You can customize this string as needed
+        return "[" + getStatusIcon() + "]";
+    }
+
+    public String toFileFormat() {
+        return "";
     }
 }

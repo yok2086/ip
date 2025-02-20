@@ -1,3 +1,6 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import David.task.Task;
@@ -8,7 +11,7 @@ import David.todo.Todo;
 
 public class David {
     public static final String LINE_SEPERATOR = "____________________________________________________________";
-
+    public static final String FILE_PATH = "./data/tasks.txt";
     public static void main(String[] args) {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -18,6 +21,7 @@ public class David {
         System.out.println("Hello from\n" + logo);
         ArrayList<Task> task = new ArrayList<>();
         printHello();
+        loadTasks(task);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         int i = 0;
@@ -61,7 +65,6 @@ public class David {
                 }
             }
          catch (IllegalArgumentException e) {
-            // Print the custom error message without stack trace
             System.out.println(e.getMessage());
         }
           catch (DavidException e) {
@@ -70,9 +73,52 @@ public class David {
             input = scanner.nextLine();
 
         }
+        saveTasks(task);
         printBye();
     }
+//
+private static void saveTasks(ArrayList<Task> task) {
+    try {
+        Files.createDirectories(Paths.get("./data"));  // Ensure directory exists
+        BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH));
+        for (Task t : task) {
+            writer.write(t.toFileFormat());
+            writer.newLine();
+        }
+        writer.close();
+        System.out.println("Tasks saved!");
+    } catch (IOException e) {
+        System.out.println("Error saving tasks: " + e.getMessage());
+    }
+}
 
+    private static void loadTasks(ArrayList<Task> task) {
+        try {
+            Path path = Paths.get(FILE_PATH);
+            if (Files.exists(path)) {
+                BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(" \\| ");
+                    if (parts[0].equals("T")) {
+                        task.add(new Todo(parts[2]));
+                    } else if (parts[0].equals("D")) {
+                        task.add(new Deadline(parts[2], parts[3]));
+                    } else if (parts[0].equals("E")) {
+                        task.add(new Event(parts[2], parts[3], parts[4]));
+                    }
+                }
+                reader.close();
+                System.out.println("Tasks loaded from file!");
+            } else {
+                System.out.println("No previous tasks found. Starting fresh!");
+            }
+        } catch (IOException | ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error loading tasks or corrupted file. Starting fresh!");
+        }
+    }
+
+    //
     private static String printTaskType(ArrayList<Task> task, int i) {
         return LINE_SEPERATOR + System.lineSeparator() + " Got it. I've added this task:" + System.lineSeparator()
                 + task.get(i).toString() + System.lineSeparator()
