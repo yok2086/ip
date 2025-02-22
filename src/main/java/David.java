@@ -24,16 +24,18 @@ public class David {
         loadTasks(task);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        int i = 0;
+        int i = task.size();
+//        int i = 0;
         char input_type = input.charAt(input.indexOf("[") + 1);
         while (!input.equals("bye")) {
             try {
                 if (input.equals("list")) {
-                    System.out.println(LINE_SEPERATOR + "\n" + "Here are the tasks in your list:\n");
-                    for (int j = 0; j < i; j++) {
+                    System.out.println(LINE_SEPERATOR + "\nHere are the tasks in your list:\n");
+                    for (int j = 0; j < task.size(); j++) {
                         System.out.println((j + 1) + "." + task.get(j).toString() + "\n" + LINE_SEPERATOR);
                     }
-                } else if (input.startsWith("mark")) {
+                }
+                else if (input.startsWith("mark")) {
                     markTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
                     printMark(task, Integer.parseInt(input.split(" ")[1]) - 1);
 
@@ -55,9 +57,8 @@ public class David {
 
                 }
                 else if (input.startsWith("delete")) {
-                    deleteTask(task, Integer.parseInt(input.substring(input.indexOf(" ") + 1)));
+                    deleteTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
                     i--;
-
                 }
 
                 else {
@@ -98,27 +99,42 @@ private static void saveTasks(ArrayList<Task> task) {
             if (Files.exists(path)) {
                 BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
                 String line;
+                System.out.println("Loading tasks from file...");
+
                 while ((line = reader.readLine()) != null) {
                     String[] parts = line.split(" \\| ");
+
+                    Task t = null;
                     if (parts[0].equals("T")) {
-                        task.add(new Todo(parts[2]));
+                        t = new Todo(parts[2]);
                     } else if (parts[0].equals("D")) {
-                        task.add(new Deadline(parts[2], parts[3]));
+                        t = new Deadline(parts[2], parts[3]);
                     } else if (parts[0].equals("E")) {
-                        task.add(new Event(parts[2], parts[3], parts[4]));
+                        t = new Event(parts[2], parts[3], parts[4]);
+                    }
+
+                    if (t != null) {
+                        if (parts[1].equals("1")) {
+                            t.setDone(true);
+                        }
+                        task.add(t);
                     }
                 }
                 reader.close();
-                System.out.println("Tasks loaded from file!");
+                System.out.println("Tasks loaded successfully!");
             } else {
                 System.out.println("No previous tasks found. Starting fresh!");
             }
         } catch (IOException | ArrayIndexOutOfBoundsException e) {
             System.out.println("Error loading tasks or corrupted file. Starting fresh!");
         }
+
+        System.out.println("Current tasks after loading:");
+        for (Task t : task) {
+            System.out.println(t);
+        }
     }
 
-    //
     private static String printTaskType(ArrayList<Task> task, int i) {
         return LINE_SEPERATOR + System.lineSeparator() + " Got it. I've added this task:" + System.lineSeparator()
                 + task.get(i).toString() + System.lineSeparator()
