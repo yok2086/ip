@@ -1,6 +1,3 @@
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import David.task.Task;
@@ -8,10 +5,11 @@ import David.ui.DavidException;
 import David.deadline.Deadline;
 import David.event.Event;
 import David.todo.Todo;
+import David.StorageManager;
 
 public class David {
     public static final String LINE_SEPERATOR = "____________________________________________________________";
-    public static final String FILE_PATH = "./data/tasks.txt";
+
     public static void main(String[] args) {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -20,12 +18,12 @@ public class David {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
         ArrayList<Task> task = new ArrayList<>();
+        task = StorageManager.loadTasks();
         printHello();
-        loadTasks(task);
+
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         int i = task.size();
-//        int i = 0;
         char input_type = input.charAt(input.indexOf("[") + 1);
         while (!input.equals("bye")) {
             try {
@@ -38,26 +36,31 @@ public class David {
                 else if (input.startsWith("mark")) {
                     markTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
                     printMark(task, Integer.parseInt(input.split(" ")[1]) - 1);
-
+                    StorageManager.saveTasks(task);
                 } else if (input.startsWith("unmark")) {
                     unmarkTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
                     printUnmark(task, Integer.parseInt(input.split(" ")[1]) - 1);
+                    StorageManager.saveTasks(task);
                 } else if (input.startsWith("todo")) {
                     task.add(new Todo(input.substring(getIndex(input, " ") + 1)));
                     System.out.println(printTaskType(task, i));
+                    StorageManager.saveTasks(task);
                     i++;
                 } else if (input.startsWith("deadline")) {
                     task.add(new Deadline((input.substring(getIndex(input, " ") + 1, getIndex(input, "/") - 1)), input.substring(getIndex(input, "by") + 3)));
                     System.out.println(printTaskType(task, i));
+                    StorageManager.saveTasks(task);
                     i++;
                 } else if (input.startsWith("event")) {
                     task.add(new Event((input.substring(getIndex(input, " ") + 1, getIndex(input, "/") - 1)), input.substring(getIndex(input, "from") + 5, getIndex(input, "to") - 2), input.substring(getIndex(input, "to") + 3)));
                     System.out.println(printTaskType(task, i));
+                    StorageManager.saveTasks(task);
                     i++;
 
                 }
                 else if (input.startsWith("delete")) {
                     deleteTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
+                    StorageManager.saveTasks(task);
                     i--;
                 }
 
@@ -74,67 +77,8 @@ public class David {
             input = scanner.nextLine();
 
         }
-        saveTasks(task);
         printBye();
     }
-//
-private static void saveTasks(ArrayList<Task> task) {
-    try {
-        Files.createDirectories(Paths.get("./data"));  // Ensure directory exists
-        BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH));
-        for (Task t : task) {
-            writer.write(t.toFileFormat());
-            writer.newLine();
-        }
-        writer.close();
-        System.out.println("Tasks saved!");
-    } catch (IOException e) {
-        System.out.println("Error saving tasks: " + e.getMessage());
-    }
-}
-
-    private static void loadTasks(ArrayList<Task> task) {
-        try {
-            Path path = Paths.get(FILE_PATH);
-            if (Files.exists(path)) {
-                BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
-                String line;
-                System.out.println("Loading tasks from file...");
-
-                while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(" \\| ");
-
-                    Task t = null;
-                    if (parts[0].equals("T")) {
-                        t = new Todo(parts[2]);
-                    } else if (parts[0].equals("D")) {
-                        t = new Deadline(parts[2], parts[3]);
-                    } else if (parts[0].equals("E")) {
-                        t = new Event(parts[2], parts[3], parts[4]);
-                    }
-
-                    if (t != null) {
-                        if (parts[1].equals("1")) {
-                            t.setDone(true);
-                        }
-                        task.add(t);
-                    }
-                }
-                reader.close();
-                System.out.println("Tasks loaded successfully!");
-            } else {
-                System.out.println("No previous tasks found. Starting fresh!");
-            }
-        } catch (IOException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("Error loading tasks or corrupted file. Starting fresh!");
-        }
-
-        System.out.println("Current tasks after loading:");
-        for (Task t : task) {
-            System.out.println(t);
-        }
-    }
-
     private static String printTaskType(ArrayList<Task> task, int i) {
         return LINE_SEPERATOR + System.lineSeparator() + " Got it. I've added this task:" + System.lineSeparator()
                 + task.get(i).toString() + System.lineSeparator()
