@@ -1,6 +1,24 @@
 # David User Guide
 
-![davidwelcome.png](../out/image/davidwelcome.png)
+```
+Hello from
+  ______        ____    ,---.  ,---..-./`)  ______                      .---.  
+|    _ `''.  .'  __ `. |   /  |   |\ .-.')|    _ `''.                  \   /  
+| _ | ) _  \/   '  \  \|  |   |  .'/ `-' \| _ | ) _  \                 |   |  
+|( ''_'  ) ||___|  /  ||  | _ |  |  `-'`"`|( ''_'  ) |                  \ /   
+| . (_) `. |   _.-`   ||  _( )_  |  .---. | . (_) `. |                   v    
+|(_    ._) '.'   _    |\ (_ o._) /  |   | |(_    ._) '                  _ _   
+|  (_.\.' / |  _( )_  | \ (_,_) /   |   | |  (_.\.' /                  (_I_)  
+|       .'  \ (_ o _) /  \     /    |   | |       .'                  (_(=)_) 
+'-----'`     '.(_,_).'    `---`     '---' '-----'`                     (_I_)  
+                                                                             
+____________________________________________________________
+ Hello! I'm David
+ What can I do for you?
+____________________________________________________________
+
+
+```
 David is a chatbot and task manager designed to help users stay organized effortlessly. Using David, users can add,
 find, track, and manage different types of tasks, such as to-dos, deadlines, and events with ease. It features a simple
 command-line interface and supports automatic task saving, ensuring that users never lose track of what needs to be
