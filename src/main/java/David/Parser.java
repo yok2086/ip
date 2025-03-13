@@ -20,6 +20,7 @@ public class Parser {
     private final Ui ui;
     private final TaskList task;
     private final Storage storage;
+    private static boolean isDone;
 
 
     /**
@@ -77,9 +78,8 @@ public class Parser {
                 storage.saveTasks(task.getTasks());
                 i++;
 
-
             } else if (input.startsWith("delete")) {
-                TaskList.deleteTask(task.getTasks(), Integer.parseInt(input.split(" ")[1]) - 1);
+                task.deleteTask(task.getTasks(), Integer.parseInt(input.split(" ")[1]) - 1);
                 storage.saveTasks(task.getTasks());
                 i--;
             } else if (input.startsWith("find")) {
@@ -129,7 +129,7 @@ public class Parser {
      * @throws DavidException If the description of the task is missing.
      */
     private static void parseTodo(String input, ArrayList<Task> task) throws DavidException {
-        task.add(new Todo(input.substring(TaskList.getIndex(input, " ") + 1)));
+        task.add(new Todo(input.substring(TaskList.getIndex(input, " ") + 1), isDone));
     }
 
 
@@ -141,7 +141,7 @@ public class Parser {
      * @throws DavidException If the description of the task is missing.
      */
     private static void parseEvent(String input, ArrayList<Task> task) throws DavidException {
-        task.add(new Event((input.substring(TaskList.getIndex(input, " ") + 1, TaskList.getIndex(input, "/") - 1)), input.substring(TaskList.getIndex(input, "from") + 5, TaskList.getIndex(input, "to") - 2), input.substring(TaskList.getIndex(input, "to") + 3)));
+        task.add(new Event((input.substring(TaskList.getIndex(input, " ") + 1, TaskList.getIndex(input, "/") - 1)), input.substring(TaskList.getIndex(input, "from") + 5, TaskList.getIndex(input, "to") - 2), input.substring(TaskList.getIndex(input, "to") + 3), isDone));
     }
 
 
@@ -153,7 +153,7 @@ public class Parser {
      * @throws DavidException If the description of the task is missing.
      */
     private static void parseDeadline(String input, ArrayList<Task> task) throws DavidException {
-        task.add(new Deadline((input.substring(TaskList.getIndex(input, " ") + 1, TaskList.getIndex(input, "/") - 1)), input.substring(TaskList.getIndex(input, "by") + 3)));
+        task.add(new Deadline((input.substring(TaskList.getIndex(input, " ") + 1, TaskList.getIndex(input, "/") - 1)), input.substring(TaskList.getIndex(input, "by") + 3), isDone));
     }
 
 

@@ -47,7 +47,6 @@ public class StorageManager {
             return tasks;
         }
 
-
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -57,22 +56,23 @@ public class StorageManager {
                     continue;
                 }
 
-
                 String taskType = parts[0];
-                boolean isDone = "1".equals(parts[1]);
+                boolean isDone = "1".equals(parts[1]);  // Ensure the task is marked done if "1"
                 String description = parts[2];
                 Task task;
+
                 // Create tasks based on the task type
                 if ("T".equals(taskType)) {
-                    task = new Todo(description);
+                    task = new Todo(description, isDone);
                 } else if ("D".equals(taskType) && parts.length > 3) {
-                    task = new Deadline(description, parts[3]);
+                    task = new Deadline(description, parts[3], isDone);
                 } else if ("E".equals(taskType) && parts.length > 4) {
-                    task = new Event(description, parts[3], parts[4]);
+                    task = new Event(description, parts[3], parts[4], isDone);
                 } else {
                     System.out.println("Unknown task type: " + taskType);
                     continue;
                 }
+
                 tasks.add(task);
             }
         } catch (IOException e) {
@@ -81,5 +81,6 @@ public class StorageManager {
         }
         return tasks;
     }
+
 }
 

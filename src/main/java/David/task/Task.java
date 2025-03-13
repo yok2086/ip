@@ -10,11 +10,10 @@ public class Task {
      *
      * @param description The description of the Task.
      */
-    public Task(String description) {
+    public Task(String description, boolean isDone) {
         this.description = description;
-        this.isDone = false;
+        this.isDone = isDone;
     }
-
 
     /**
      * Returns the status icon of the task, marking it as done (X) or not done (space).
