@@ -103,6 +103,9 @@ public class Parser {
         } catch (DavidException e) {
             System.out.println(LINE_SEPERATOR + System.lineSeparator() + " Oops! The description of a task should NOT be blank! Please try again :)" + System.lineSeparator() + LINE_SEPERATOR);
         }
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("Does not exist, try again. " + System.lineSeparator() + LINE_SEPERATOR);
+        }
 
 
         return false;
