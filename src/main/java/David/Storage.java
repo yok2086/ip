@@ -1,8 +1,6 @@
 package David;
 
-
 import java.util.ArrayList;
-
 
 import David.task.Task;
 import David.ui.DavidException;
