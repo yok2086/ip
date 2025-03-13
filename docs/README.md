@@ -15,15 +15,15 @@ Description: tasks without any date/time attached to it <br>
 Format: todo `DESCRIPTION`<br>
 Example: `todo CS2113` <br>
 Expected output:
-----------------------------------------------------------------------------------------------------
 
-```Got it. I've added this task:
+```
+----------------------------------------------------------------------------------------------------
+ Got it. I've added this task:
 [T][ ] CS2113
 Now you have 6 tasks in the list.
 Tasks saved to ./data/tasks.txt
-```
-
 ----------------------------------------------------------------------------------------------------
+```
 
 ## Adding a Deadline: `deadline`
 
@@ -33,9 +33,9 @@ Format: deadline `DESCRIPTION` /by `SPECIFIC_DATE` `SPECIFIC_TIME` <br>
 `SPECIFIC_DATE` should be in the format of year/month/day and `SPECIFIC_TIME` should be in `Hour:Minutes`  <br>
 Example: `deadline hw /by 2020/03/04 3` <br>
 Expected output:
+```
 ----------------------------------------------------------------------------------------------------
-
-``` Got it. I've added this task:
+Got it. I've added this task:
 [D][ ] hw (by: 2020/03/04 3)
 Now you have 8 tasks in the list.
 ____________________________________________________________
@@ -53,14 +53,15 @@ Format: event `DESCRIPTION` /from `START` /to `END` <br>
 `START` and `END` should follow the format of `Year/Month/Day` and/or `Hour:Minutes` <br>
 Example: `event project meeting /from Mon 2pm /to 4pm` <br>
 Expected output:
+```
 ----------------------------------------------------------------------------------------------------
 Got it. I've added this task:
 [E][ ] project meeting (from: Mon 2pm to: 4pm)
 Now you have 9 tasks in the list.
 ____________________________________________________________
 Tasks saved to ./data/tasks.txt
-
 ----------------------------------------------------------------------------------------------------
+```
 
 ## Listing all tasks: list <br>
 
@@ -93,11 +94,10 @@ Example: `mark 1`  <br>
 Expected output of mark 1:
 
 ```
------------------------------------------------------------------------------____________________________________________________________
+____________________________________________________________
 Nice! I've marked this task as done:
 [X] project meeting
 ____________________________________________________________
-----------------------------------------------------------------------------------------------------
 ```
 
 ## Marking Task as Not Done: unmark
@@ -108,13 +108,11 @@ Example: `unmark 1`  <br>
 Expected output of unmark 1:  <br>
 
 ```
-----------------------------------------------------------------------------------------------------
 ____________________________________________________________
-Okay! I've marked this task as not done:_______________________________
+Okay! I've marked this task as not done:
 [ ] hw
 ____________________________________________________________
 Tasks saved to ./data/tasks.txt
-
 ```
 
 ----------------------------------------------------------------------------------------------------
@@ -134,6 +132,8 @@ Now you have 2 tasks in the list.
 ----------------------------------------------------------------------------------------------------
 ```
 
+----------------------------------------------------------------------------------------------------
+
 ## Finding tasks by keyword: find
 
 Finds tasks which descriptions contain the given keyword. If task not found then, print out not found.  <br>
@@ -142,14 +142,13 @@ Example: `find hw`  <br>
 Expected output:  <br>
 
 ```
-----------------------------------------------------------------------------------------------------
+____________________________________________________________
 1.[D][ ] hw (by: 2020/03/04 3)
 ____________________________________________________________
 These tasks were found
 ____________________________________________________________
 ```
 
-----------------------------------------------------------------------------------------------------
 Example: find CS1231
 Expected output:
 
@@ -159,6 +158,7 @@ Could not be found
 ____________________________________________________________
 
 ```
+----------------------------------------------------------------------------------------------------
 
 ## Leaving the program: bye
 
@@ -172,7 +172,7 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
-
+----------------------------------------------------------------------------------------------------
 ## Saving the Data
 
 Data is saved automatically after any command that results in the data being changed. <br>
