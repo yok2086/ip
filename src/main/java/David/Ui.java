@@ -101,7 +101,7 @@ public class Ui {
      * @param index The index of the task in the list.
      */
     public static void printUnmark(ArrayList<Task> task, int index) {
-        System.out.println(LINE_SEPERATOR + "\n" + "[" + task.get(index).getStatusIcon() + "] " + task.get(index).getDescription() + "\n" + LINE_SEPERATOR);
+        System.out.println(LINE_SEPERATOR + "\n" + "Okay! I've marked this task as not done:\n" + "[" + task.get(index).getStatusIcon() + "] " + task.get(index).getDescription() + "\n" + LINE_SEPERATOR);
     }
 
 

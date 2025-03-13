@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
-
 import David.deadline.Deadline;
 import David.event.Event;
 import David.task.Task;

@@ -53,7 +53,6 @@ public class Parser {
             } else if (input.equals("bye")) {
                 return true;
 
-
             } else if (input.startsWith("mark")) {
                 task.markTask(task, Integer.parseInt(input.split(" ")[1]) - 1);
                 ui.printMark(task.getTasks(), Integer.parseInt(input.split(" ")[1]) - 1);
@@ -83,6 +82,19 @@ public class Parser {
                 TaskList.deleteTask(task.getTasks(), Integer.parseInt(input.split(" ")[1]) - 1);
                 storage.saveTasks(task.getTasks());
                 i--;
+            } else if (input.startsWith("find")) {
+                boolean found = false;
+                for (i = 0; i < task.getTasks().size(); i++) {
+                    if (task.getTask(i).getDescription().contains(input.substring(input.indexOf(" ") + 1))) {
+                        System.out.println((i + 1) + "." + task.getTask(i).toString() + "\n" + LINE_SEPERATOR);
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    System.out.println(LINE_SEPERATOR + System.lineSeparator() + "Could not be found" + System.lineSeparator() + LINE_SEPERATOR);
+                } else {
+                    System.out.println(System.lineSeparator() + "These tasks were found" + System.lineSeparator() + LINE_SEPERATOR);
+                }
             } else {
                 throw new IllegalArgumentException(LINE_SEPERATOR + System.lineSeparator() + " Sorry... I don't know what you mean by that? Could you try again?" + System.lineSeparator() + LINE_SEPERATOR);
             }
@@ -140,8 +152,6 @@ public class Parser {
     private static void parseDeadline(String input, ArrayList<Task> task) throws DavidException {
         task.add(new Deadline((input.substring(TaskList.getIndex(input, " ") + 1, TaskList.getIndex(input, "/") - 1)), input.substring(TaskList.getIndex(input, "by") + 3)));
     }
-
-
 
 
 }
